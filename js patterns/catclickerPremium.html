@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cat Clicker Premium</title>
+</head>
+<style>
+
+#catListWrapper{
+	display: inline-block;
+	border:1px solid #000;
+	background: #f1f1f1;
+}
+#img_holder{
+	cursor: pointer;
+	display:inline-block;
+}
+#catList{
+	cursor: pointer;
+}
+</style>
+<body>
+	<h1>CatClicker Premium</h1>
+	
+	<ul id="catList"></ul>
+	<div id="catListWrapper"></div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+	
+(function(){
+
+	var Cat = function(cat_name, img_src){
+		var that = this;
+		this.name = cat_name;
+		this.img = img_src;
+		var count = 0;
+
+		var namesLi= document.createElement('li');
+			nameTxt = document.createTextNode(this.name);
+			namesLi.appendChild(nameTxt);
+			document.getElementById("catList").appendChild(namesLi); 
+
+		this.elem = document.createElement('div');
+			this.elem.id = this.name;
+			this.elem.className = 'cat';
+
+		var pTag = document.createElement("p")
+			node1 = document.createTextNode("Click count: ")
+			pTag.appendChild(node1);
+			spanTag = document.createElement('span');
+			spanTag.className = "count_holder";
+			spanTag.innerHTML = "0"
+			pTag.appendChild(spanTag);
+			this.elem.appendChild(pTag);
+
+		var pTag2 = document.createElement("p");
+			node2 = document.createTextNode("Cat Name: " + this.name);
+			pTag2.appendChild(node2);
+			this.elem.appendChild(pTag2);
+
+		var imgTag = document.createElement('img');
+			imgTag.id = this.name + "-img";
+			imgTag.src = this.img;
+			this.elem.appendChild(imgTag);
+
+			var catListholder = document.getElementById('catListWrapper'); 
+			
+			namesLi.addEventListener("click", function(ev){
+				console.log(ev.target);
+				catListholder.innerHTML = '';
+				catListholder.appendChild(that.elem);
+			});
+
+			this.elem.addEventListener("click", function(ev){	
+				count++;
+				$(this).find('.count_holder').text(count);
+			});
+
+			//Notes
+			//use MVC
+	};
+
+	var Felix = new Cat('felix','https://s-media-cache-ak0.pinimg.com/236x/fa/69/c9/fa69c939dd7ae3940b0ec9d27a639d36.jpg');
+	var Heathcliff = new Cat('heclef', 'http://ic.pics.livejournal.com/berniebentablo/42270450/7916/7916_original.gif');
+	var Tom = new Cat('Tom','http://38.media.tumblr.com/tumblr_m042c2b2LI1qewv88.gif')
+	var LionO = new Cat('LionO','http://image.blingee.com/images19/content/output/000/000/000/7da/816974510_1511522.gif')
+	var Snarf = new Cat('Snarf', 'http://vignette3.wikia.nocookie.net/thundercatslair/images/b/b2/Snarf.jpg/revision/latest/scale-to-width-down/290?cb=20140627151310')
+
+	})();
+
+</script>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cat Clicker </title>
+</head>
+<style>
+
+.cat{
+	display: inline-block;
+	border:1px solid #000;
+}
+#img_holder{
+	cursor: pointer;
+	display:inline-block;
+}
+</style>
+<body>
+	<h1> CatClicker</h1>
+
+<!-- 	<div id="cat1" class="cat">
+		<p>Click count: <span class="count_holder">0</span></p>
+		<p>Cat name: </p>
+		<img id="test1"  src="http://placekitten.com/g/250/250">
+	</div>
+
+	<div id="cat2" class="cat">
+		<p>Click count: <span class="count_holder">0</span></p>
+		<p>Cat name: </p>	
+		<img id="test1"  src="http://placekitten.com/g/250/250">
+	</div> -->
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+	
+(function(){
+
+	function Cat(cat_name){
+		this.name = cat_name;
+		var count = 0;
+
+		var elem = document.createElement('div');
+			elem.id = this.name;
+			elem.className = 'cat';
+
+		var pTag = document.createElement("p")
+			node1 = document.createTextNode("Click count: ")
+			pTag.appendChild(node1);
+			spanTag = document.createElement('span');
+			spanTag.className = "count_holder";
+			spanTag.innerHTML = "0"
+			pTag.appendChild(spanTag);
+			elem.appendChild(pTag);
+
+		var pTag2 = document.createElement("p");
+			node2 = document.createTextNode("Cat Name: " + this.name);
+			pTag2.appendChild(node2);
+			elem.appendChild(pTag2);
+
+		var imgTag = document.createElement('img');
+			imgTag.id = this.name + "-img";
+			imgTag.src = "http://placekitten.com/g/250/250";
+			elem.appendChild(imgTag);
+
+			document.body.appendChild(elem)
+
+			elem.addEventListener("click", function(e){	
+				count++;
+				$(this).find('.count_holder').text(count);
+			});
+
+		
+	}
+
+var felix = new Cat('felix');
+var heclef = new Cat('heclef');
+
+// 		function Cat(name){
+// 			var cat_name = name;
+// 			var count = 0;
+
+// 			return{
+// 				displayName: function(){
+// 					return "cat name is " + cat_name;
+// 				},
+// 				displayCount: function(){
+// 					return count;
+// 				}
+// 			};
+// 		}
+
+// var felix = Cat('felix');
+// console.log(felix.displayName())
+
+
+		// var cat_img = document.querySelectorAll('.img_holder');
+		// var count_holder = document.querySelectorAll('.count_holder');
+		// var count = 0;
+
+		// function Cat(name, count) {
+
+		// 	that = this;
+		// 	this.name = name;
+		// 	this.count = count;
+	
+		// 	$('.cat').click(function (ev){
+		// 		count++;
+		// 		$('.count_holder').html(count);
+		// 	});
+		// }
+
+		// cat1 = new Cat("gypsy", 0);
+		// cat2 = new Cat("ugly cat", 0);
+
+	 //    $('.cat_name1').html('gypsy');
+	 //    $('.cat_name2').html('ugly cat');
+
+	 //this is not scalable
+
+
+	 // LESSON
+	 var  num  = [1,2,3];
+	 for (i=0; i<num.length; i++){
+	 	number = num[i];
+	 	console.log(number)
+	 	 var el = document.createElement('div');
+	 	 el.textContent = number;
+
+	 	 el.style.color = "#fff";
+	 	 el.style.background = "blue";
+	 	 el.style.display = "block"
+
+	 	 el.addEventListener('click', (function(numcopy){
+	 	 	return function(){
+	 	 		alert(numcopy);
+	 	 	};
+	 	 })(number) ); 
+
+	 	 //document.body.appendChild(el)
+	 }
+
+	})();
+
+</script>
+</html>

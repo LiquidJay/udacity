@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Cat Clicker MVC Pro</title>
+</head>
+<style>
+
+#catListWrapper{
+	display: inline-block;
+	border:1px solid #000;
+	background: #f1f1f1;
+}
+#img_holder{
+	cursor: pointer;
+	display:inline-block;
+}
+#catList{
+	cursor: pointer;
+}
+#admin-panel{
+	display: none;
+}
+</style>
+<body>
+	<h1>CatClicker MVC Pro</h1>
+	
+	<div id="menu">
+		<button id="adminBtn" type="button">Admin</button>
+	</div>
+	<div id="admin-panel">
+		<h2>Admin Menu</h2>
+			<fieldset>
+				<div> Name: <input type="text" id="admin-name"></div>
+				<div> ImgUrl: <input type="text" id="admin-image" size="75"></div>
+				<div> Clicks: <input type="text" id="admin-clicks" size="30" maxlength="5"></div>
+				<button id="cancelBtn" type="text">Cancel</button>
+				<button id="submitBtn" type="text">Submit</button>
+			</fieldset>
+	</div>
+
+	<ul id="catList">
+	</ul>
+	
+	<div id="catListWrapper">
+		<div id="catData"></div>
+	</div>
+
+</body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript">
+(function(){
+	var model = { 
+			data:  [
+				{
+					id:0, 
+					name:'Felix', 
+					image:'https://s-media-cache-ak0.pinimg.com/236x/fa/69/c9/fa69c939dd7ae3940b0ec9d27a639d36.jpg', 
+					count : 0
+				}, 
+				{
+					id:1, name:'Heathcliff', 
+					image:'http://ic.pics.livejournal.com/berniebentablo/42270450/7916/7916_original.gif', 
+					count:0
+				}, 
+				{id:2, name:'Tom', image:'http://38.media.tumblr.com/tumblr_m042c2b2LI1qewv88.gif', count:0}, 
+				{id:3, name:'LionO',image:'http://image.blingee.com/images19/content/output/000/000/000/7da/816974510_1511522.gif', count:0}, 
+				{id:4, name:'Snarf', image:'http://vignette3.wikia.nocookie.net/thundercatslair/images/b/b2/Snarf.jpg/revision/latest/scale-to-width-down/290?cb=20140627151310', count: 0}
+				]
+			,
+			currentCat: "null"
+			, 
+
+			addCount: function(thatcat){
+				thatcat.count++;
+				return thatcat.count;
+			},
+
+			adminPanel: {
+				visible: "hidden"
+			},
+
+			updateCurrentCat: function(id, name, image, clicks){
+				this.data[id].name = name;
+				this.data[id].image = image;
+				this.data[id].count = clicks;
+			}
+	};
+
+	var controller = { 
+		init: function(){
+			view.init();
+		},
+
+		getAllCatData : function(){
+			return model.data;
+		},
+
+		getCurrentCatById : function(id){
+			return model.data[id];
+		},
+
+		getCurrentCat : function(){
+			return model.currentCat;
+		},
+
+		setCurrentCat: function(thatcat){
+			model.currentCat = thatcat;
+		},
+
+		addCatCount : function(thatcat){
+			model.addCount(thatcat);
+			view.render();
+		},
+
+		getPanelState: function(){
+			return model.adminPanel.visible;
+		},
+
+		showAdminPanel: function(){
+			view.adminPanel.style.display = "block";
+			model.adminPanel.visible = "visible";
+		},
+
+		hideAdminPanel: function(){
+			view.adminPanel.style.display = "none";
+			model.adminPanel.visible = "hidden";
+		},
+
+		updateAdminInfo: function(id, name, image, clicks){
+			console.log(id, name, image, clicks)
+			 model.updateCurrentCat(id, name, image, clicks);
+		}
+	};
+
+	//you could set up 2 views.... catListView , catView
+	var view = {
+		init: function(){
+			var cat;
+			var $catName = $('.cat');
+			var adminBtn =  document.getElementById('adminBtn');
+			this.adminPanel = document.getElementById('admin-panel');
+			
+			if(controller.getPanelState() == "hidden"){
+				controller.hideAdminPanel();			
+			}
+			else{
+				controller.showAdminPanel();
+			}
+
+			$('#catList').html(" ");
+			controller.getAllCatData().forEach(function(cat){
+				$('#catList').append('<li id="'+ cat.id + '" class="cat">' + cat.name +'</li>');
+			});
+
+			//render cat image area
+			$('.cat').on('click', function(ev){
+				cat  = controller.getCurrentCatById(ev.target.id);	
+				controller.setCurrentCat(cat);
+				view.render();
+				view.adminPanelRender();
+			});
+
+			//open admin panel
+			adminBtn.addEventListener("click", function(){
+				view.adminPanelView();
+			});
+		},
+
+		render: function(){
+			var cat = controller.getCurrentCat(),
+				$catData = $('#catData'),
+				htmlStr= '',
+				catId;
+
+			htmlStr = '<p> Cat Name: ' + cat.name + '</p>' +
+					  '<div>  Count: <span class="cc"> '+ cat.count +' </span></div>' +
+					  '<img class="cat-image" data-id="'+ cat.id +'" src="'+ cat.image +'">';
+			$catData.html(htmlStr);
+
+			$('.cat-image').on('click', function(ev){
+				$(".cc").html(controller.addCatCount(cat));
+			});
+		},
+
+		adminPanelView: function(){	
+			controller.showAdminPanel();
+		},
+
+		adminPanelRender: function(){
+			var cancelBtn = document.getElementById('cancelBtn'),
+				submitBtn = document.getElementById('submitBtn'),
+				name_el = document.getElementById("admin-name"),
+				image_el = document.getElementById("admin-image"),
+				clicks_el = document.getElementById("admin-clicks"),
+				thiscat  = controller.getCurrentCat();
+
+			name_el.value = thiscat.name;
+			image_el.value = thiscat.image;
+			clicks_el.value = thiscat.count;
+
+			//canel button
+			cancelBtn.addEventListener("click", function(){
+				controller.hideAdminPanel();
+			});
+			
+			//submit Button
+			submitBtn.addEventListener("click", function(){		
+				controller.hideAdminPanel();
+				controller.updateAdminInfo(thiscat.id, name_el.value, image_el.value, clicks_el.value );
+				
+				view.init();
+				view.render();
+				view.adminPanelRender();
+			});	
+		}
+	};
+	
+	controller.init();
+
+})();
+</script>
+</html>
