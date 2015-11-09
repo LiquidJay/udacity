@@ -13,3 +13,19 @@ If you do not have a file named .bash_profile in your home directory, create it.
 Add the line export PATH=$PATH:/Applications/Sublime\ Text\ 2.app/Contents/SharedSupport/bin to the end of your .bash_profile.  If subl was in a different directory for you in step 1, use that directory.
 
 Close and re-open your terminal.  Typing subl in the terminal should now open Sublime.
+
+
+
+
+2.) 
+
+How can you use the commands git log and git diff to view the history of files?
+run git log --stat   to get line numbers changed
+
+color diff
+
+Getting Colored Output
+
+To get colored diff output, run git config --global color.ui auto
+
+
