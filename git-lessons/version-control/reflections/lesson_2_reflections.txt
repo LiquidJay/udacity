@@ -1,0 +1,26 @@
+What happens when you initialize a repository? Why do you need to do it?
+
+
+git adds meta
+keep track of things'
+
+
+
+How is the staging area different from the working directory and the repository? What value do you think it offers?
+
+files edited and ready to commit 
+
+
+
+when writing a git message.... write it as a command
+eg  "add a new styl"   instead of "added a new style"
+
+
+
+git diff  'working directory'  'staging area'
+git diff --staged  'staging area'   'commit' 
+
+
+git log --graph --oneline master coins
+
+git show  [commit]        "shows commit against parent"
